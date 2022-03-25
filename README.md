@@ -13,7 +13,7 @@ Then, download the GitHub repo:
 ```bash
 git clone https://github.com/agayretli/ucl-simulator.git
 
-cd iap-backoffice
+cd ucl-simulator
 cp .env.example .env
 composer install
 php artisan db:create
