@@ -19,3 +19,11 @@ composer install
 php artisan db:create
 php artisan migrate --seed
 ```
+
+## Test
+
+You can test all requests as like:
+
+```bash
+php artisan test
+```
