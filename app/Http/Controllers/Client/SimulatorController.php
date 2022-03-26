@@ -7,7 +7,6 @@ use App\Models\Fixture;
 use App\Models\GameManager;
 use App\Models\Point;
 use App\Models\Team;
-use Illuminate\Http\Request;
 
 class SimulatorController extends Controller
 {
@@ -17,21 +16,29 @@ class SimulatorController extends Controller
 
     public function teams()
     {
-        $teams = Team::all();
+        try {
+            $teams = Team::all();
 
-        return view('teams', ['teams' => $teams]);
+            return view('teams', ['teams' => $teams]);
+        } catch (\Exception $e) {
+            abort(404);
+        }
     }
 
     public function fixtures()
     {
-        if (Fixture::find(1)) {
-            $fixtures = Fixture::all();
-        } else {
-            $this->generateFixtures();
-            $fixtures = Fixture::all();
-        }
+        try {
+            if (Fixture::find(1)) {
+                $fixtures = Fixture::all();
+            } else {
+                $this->generateFixtures();
+                $fixtures = Fixture::all();
+            }
 
-        return view('fixtures', ['fixtures' => $fixtures]);
+            return view('fixtures', ['fixtures' => $fixtures]);
+        } catch (\Exception $e) {
+            abort(404);
+        }
     }
 
     public function generateFixtures()
@@ -85,54 +92,66 @@ class SimulatorController extends Controller
 
     public function playNextWeek()
     {
-        $game_manager = GameManager::find(1);
-        if ($game_manager->current_week > 6) {
-            $lastPoints = Point::orderBy('group', 'ASC')->orderBy('points', 'DESC')->orderBy('goal_difference', 'DESC')->get();
-            $lastFixtures = Fixture::where('week', 6)->get();
+        try {
+            $game_manager = GameManager::find(1);
+            if ($game_manager->current_week > 6) {
+                $lastPoints = Point::orderBy('group', 'ASC')->orderBy('points', 'DESC')->orderBy('goal_difference', 'DESC')->get();
+                $lastFixtures = Fixture::where('week', 6)->get();
 
-            return view('simulation', ['points' => $lastPoints, 'fixtures' => $lastFixtures]);
-        }
-        $this->playWeeklyMatches($game_manager->current_week);
-        $game_manager->current_week = $game_manager->current_week + 1;
-        $game_manager->save();
-
-        $points = Point::orderBy('group', 'ASC')->orderBy('points', 'DESC')->orderBy('goal_difference', 'DESC')->get();
-        $fixtures = Fixture::where('week', $game_manager->current_week - 1)->get();
-
-        return view('simulation', ['points' => $points, 'fixtures' => $fixtures]);
-    }
-
-    public function playAllWeeks(Request $request)
-    {
-        $game_manager = GameManager::find(1);
-        if ($game_manager->current_week > 6) {
-            $lastPoints = Point::orderBy('group', 'ASC')->orderBy('points', 'DESC')->orderBy('goal_difference', 'DESC')->get();
-            $lastFixtures = Fixture::where('week', 6)->get();
-
-            return view('simulation', ['points' => $lastPoints, 'fixtures' => $lastFixtures]);
-        }
-
-        for ($i = $game_manager->current_week; $i <= 6; ++$i) {
-            $this->playWeeklyMatches($i);
+                return view('simulation', ['points' => $lastPoints, 'fixtures' => $lastFixtures]);
+            }
+            $this->playWeeklyMatches($game_manager->current_week);
             $game_manager->current_week = $game_manager->current_week + 1;
             $game_manager->save();
+
+            $points = Point::orderBy('group', 'ASC')->orderBy('points', 'DESC')->orderBy('goal_difference', 'DESC')->get();
+            $fixtures = Fixture::where('week', $game_manager->current_week - 1)->get();
+
+            return view('simulation', ['points' => $points, 'fixtures' => $fixtures]);
+        } catch (\Exception $e) {
+            abort(404);
         }
+    }
 
-        $points = Point::orderBy('group', 'ASC')->orderBy('points', 'DESC')->orderBy('goal_difference', 'DESC')->get();
-        $fixtures = Fixture::where('week', $game_manager->current_week - 1)->get();
+    public function playAllWeeks()
+    {
+        try {
+            $game_manager = GameManager::find(1);
+            if ($game_manager->current_week > 6) {
+                $lastPoints = Point::orderBy('group', 'ASC')->orderBy('points', 'DESC')->orderBy('goal_difference', 'DESC')->get();
+                $lastFixtures = Fixture::where('week', 6)->get();
 
-        return view('simulation', ['points' => $points, 'fixtures' => $fixtures]);
+                return view('simulation', ['points' => $lastPoints, 'fixtures' => $lastFixtures]);
+            }
+
+            for ($i = $game_manager->current_week; $i <= 6; ++$i) {
+                $this->playWeeklyMatches($i);
+                $game_manager->current_week = $game_manager->current_week + 1;
+                $game_manager->save();
+            }
+
+            $points = Point::orderBy('group', 'ASC')->orderBy('points', 'DESC')->orderBy('goal_difference', 'DESC')->get();
+            $fixtures = Fixture::where('week', $game_manager->current_week - 1)->get();
+
+            return view('simulation', ['points' => $points, 'fixtures' => $fixtures]);
+        } catch (\Exception $e) {
+            abort(404);
+        }
     }
 
     public function resetData()
     {
-        Fixture::truncate();
-        Point::truncate();
-        $game_manager = GameManager::find(1);
-        $game_manager->current_week = 1;
-        $game_manager->save();
+        try {
+            Fixture::truncate();
+            Point::truncate();
+            $game_manager = GameManager::find(1);
+            $game_manager->current_week = 1;
+            $game_manager->save();
 
-        return redirect()->route('teams');
+            return redirect()->route('teams');
+        } catch (\Exception $e) {
+            abort(404);
+        }
     }
 
     public function playWeeklyMatches($week)
@@ -181,18 +200,6 @@ class SimulatorController extends Controller
                 $this->calculatePrediction($week);
             }
         }
-    }
-
-    public function prediction(Request $request)
-    {
-        $game_manager = GameManager::find(1);
-        if ($game_manager->current_week > 5 || $game_manager->current_week == 1) {
-            return response()->json(['result' => false], 200);
-        }
-        $this->calculatePrediction($game_manager->current_week);
-        $points = Point::where('group', 'A')->orderBy('points', 'DESC')->orderBy('goal_difference', 'DESC')->get();
-
-        return response()->json(['result' => true, 'prediction' => $points], 200);
     }
 
     public function calculatePrediction($week)
