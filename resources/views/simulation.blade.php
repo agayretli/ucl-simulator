@@ -20,9 +20,9 @@
             </div>
         </div>
         <div class="row align-items-center justify-content-md-center">
-        <div class="row">
-            <div class="col">
-                <div class="nav-tabs-horizontal" data-plugin="tabs">
+            <div class="row">
+                <div class="col">
+                    <div class="nav-tabs-horizontal" data-plugin="tabs">
                         <ul class="nav nav-tabs nav-tabs-solid" role="tablist">
                         <li class="nav-item" role="presentation"><a class="nav-link active" data-toggle="tab" href="#A" aria-controls="A" role="tab" aria-selected="true">A</a></li>
                         <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#B" aria-controls="B" role="tab" aria-selected="false">B</a></li>
@@ -126,6 +126,43 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <div class="col">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Match Results</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($fixtures->where('group','B') as $fixture)
+                                            <tr>                                        
+                                                <td>{{ $fixture->home }}</td>
+                                                <td>{{ $fixture->home_score }}</td>
+                                                <td>{{ $fixture->away_score }}</td>
+                                                <td>{{ $fixture->away }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Championship Predictions</th>
+                                            <th scope="col">%</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($points->where('group','B') as $point)
+                                            <tr>                                        
+                                                <td>{{ $point->name }}</td>
+                                                <td>{{ $point->prediction }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         <div class="tab-pane" id="C" role="tabpanel">
                             <div class="col">
@@ -149,6 +186,43 @@
                                                 <td>{{ $point->drawn }}</td>
                                                 <td>{{ $point->lost }}</td>
                                                 <td>{{ $point->goal_difference }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Match Results</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($fixtures->where('group','C') as $fixture)
+                                            <tr>                                        
+                                                <td>{{ $fixture->home }}</td>
+                                                <td>{{ $fixture->home_score }}</td>
+                                                <td>{{ $fixture->away_score }}</td>
+                                                <td>{{ $fixture->away }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Championship Predictions</th>
+                                            <th scope="col">%</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($points->where('group','C') as $point)
+                                            <tr>                                        
+                                                <td>{{ $point->name }}</td>
+                                                <td>{{ $point->prediction }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -182,9 +256,46 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <div class="col">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Match Results</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($fixtures->where('group','D') as $fixture)
+                                            <tr>                                        
+                                                <td>{{ $fixture->home }}</td>
+                                                <td>{{ $fixture->home_score }}</td>
+                                                <td>{{ $fixture->away_score }}</td>
+                                                <td>{{ $fixture->away }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Championship Predictions</th>
+                                            <th scope="col">%</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($points->where('group','D') as $point)
+                                            <tr>                                        
+                                                <td>{{ $point->name }}</td>
+                                                <td>{{ $point->prediction }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         <div class="tab-pane" id="E" role="tabpanel">
-                            <div class="col-sm">
+                            <div class="col">
                                 <table class="table">
                                     <thead>
                                         <tr>
@@ -205,6 +316,43 @@
                                                 <td>{{ $point->drawn }}</td>
                                                 <td>{{ $point->lost }}</td>
                                                 <td>{{ $point->goal_difference }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Match Results</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($fixtures->where('group','E') as $fixture)
+                                            <tr>                                        
+                                                <td>{{ $fixture->home }}</td>
+                                                <td>{{ $fixture->home_score }}</td>
+                                                <td>{{ $fixture->away_score }}</td>
+                                                <td>{{ $fixture->away }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Championship Predictions</th>
+                                            <th scope="col">%</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($points->where('group','E') as $point)
+                                            <tr>                                        
+                                                <td>{{ $point->name }}</td>
+                                                <td>{{ $point->prediction }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -238,6 +386,43 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <div class="col">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Match Results</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($fixtures->where('group','F') as $fixture)
+                                            <tr>                                        
+                                                <td>{{ $fixture->home }}</td>
+                                                <td>{{ $fixture->home_score }}</td>
+                                                <td>{{ $fixture->away_score }}</td>
+                                                <td>{{ $fixture->away }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Championship Predictions</th>
+                                            <th scope="col">%</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($points->where('group','F') as $point)
+                                            <tr>                                        
+                                                <td>{{ $point->name }}</td>
+                                                <td>{{ $point->prediction }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         <div class="tab-pane" id="G" role="tabpanel">
                             <div class="col">
@@ -266,6 +451,43 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <div class="col">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Match Results</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($fixtures->where('group','G') as $fixture)
+                                            <tr>                                        
+                                                <td>{{ $fixture->home }}</td>
+                                                <td>{{ $fixture->home_score }}</td>
+                                                <td>{{ $fixture->away_score }}</td>
+                                                <td>{{ $fixture->away }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Championship Predictions</th>
+                                            <th scope="col">%</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($points->where('group','G') as $point)
+                                            <tr>                                        
+                                                <td>{{ $point->name }}</td>
+                                                <td>{{ $point->prediction }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         <div class="tab-pane" id="H" role="tabpanel">
                             <div class="col">
@@ -289,6 +511,43 @@
                                                 <td>{{ $point->drawn }}</td>
                                                 <td>{{ $point->lost }}</td>
                                                 <td>{{ $point->goal_difference }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Match Results</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($fixtures->where('group','H') as $fixture)
+                                            <tr>                                        
+                                                <td>{{ $fixture->home }}</td>
+                                                <td>{{ $fixture->home_score }}</td>
+                                                <td>{{ $fixture->away_score }}</td>
+                                                <td>{{ $fixture->away }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Championship Predictions</th>
+                                            <th scope="col">%</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($points->where('group','H') as $point)
+                                            <tr>                                        
+                                                <td>{{ $point->name }}</td>
+                                                <td>{{ $point->prediction }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
