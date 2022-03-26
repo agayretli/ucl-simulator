@@ -196,9 +196,9 @@ class SimulatorController extends Controller
             $pointAway->goal_difference = $pointAway->goal_difference + $match->away_score - $match->home_score;
             $pointHome->save();
             $pointAway->save();
-            if ($week > 1) {
-                $this->calculatePrediction($week);
-            }
+        }
+        if ($week > 1) {
+            $this->calculatePrediction($week);
         }
     }
 
