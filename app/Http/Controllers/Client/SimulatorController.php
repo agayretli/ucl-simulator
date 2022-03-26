@@ -211,7 +211,12 @@ class SimulatorController extends Controller
             $points = Point::where('group', $group)->orderBy('points', 'DESC')->orderBy('goal_difference', 'DESC')->get();
             $remain_points = (6 - $week) * 3;
 
-            if ($points[0]->points - $points[1]->points > $remain_points) {
+            if ($week == 6) {
+                $points[0]->prediction = 100;
+                $points[1]->prediction = 0;
+                $points[2]->prediction = 0;
+                $points[3]->prediction = 0;
+            } elseif ($points[0]->points - $points[1]->points > $remain_points) {
                 $points[0]->prediction = 100;
                 $points[1]->prediction = 0;
                 $points[2]->prediction = 0;
