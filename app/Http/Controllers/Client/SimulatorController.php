@@ -14,6 +14,7 @@ class SimulatorController extends Controller
     {
     }
 
+    //getting all teams
     public function teams()
     {
         try {
@@ -25,6 +26,7 @@ class SimulatorController extends Controller
         }
     }
 
+    //getting all fixtures
     public function fixtures()
     {
         try {
@@ -41,11 +43,11 @@ class SimulatorController extends Controller
         }
     }
 
+    //generate fixtures
     public function generateFixtures()
     {
         $groups = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
-        //generate fixtures
         foreach ($groups as $group) {
             $input = Team::select('name', 'group')->where('group', $group)->get();
             foreach ($input as $teamI) {
@@ -90,6 +92,7 @@ class SimulatorController extends Controller
         return Fixture::all();
     }
 
+    //play current week's matches
     public function playNextWeek()
     {
         try {
@@ -113,6 +116,7 @@ class SimulatorController extends Controller
         }
     }
 
+    //play all week's matches
     public function playAllWeeks()
     {
         try {
@@ -124,6 +128,7 @@ class SimulatorController extends Controller
                 return view('simulation', ['points' => $lastPoints, 'fixtures' => $lastFixtures]);
             }
 
+            //play all remaining matches
             for ($i = $game_manager->current_week; $i <= 6; ++$i) {
                 $this->playWeeklyMatches($i);
                 $game_manager->current_week = $game_manager->current_week + 1;
@@ -139,6 +144,7 @@ class SimulatorController extends Controller
         }
     }
 
+    //reset all data
     public function resetData()
     {
         try {
@@ -154,11 +160,13 @@ class SimulatorController extends Controller
         }
     }
 
+    //play weekly matches
     public function playWeeklyMatches($week)
     {
         $fixtures = Fixture::where('week', $week)->get();
 
         foreach ($fixtures as $match) {
+            //score calculation
             $home = Team::select('coefficient', 'group')->where('name', $match->home)->first();
             $home_score = (int) ($home->coefficient * random_int(1, 10) / 200);
             $away = Team::select('coefficient', 'group')->where('name', $match->away)->first();
@@ -167,6 +175,7 @@ class SimulatorController extends Controller
             $match->away_score = $away_score;
             $match->save();
 
+            //point calculation
             if ($week == 1) {
                 $pointHome = new Point();
                 $pointHome->name = $match->home;
@@ -202,15 +211,17 @@ class SimulatorController extends Controller
         }
     }
 
+    //championship prediction calculation
     public function calculatePrediction($week)
     {
         $groups = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
-        //generate fixtures
         foreach ($groups as $group) {
             $points = Point::where('group', $group)->orderBy('points', 'DESC')->orderBy('goal_difference', 'DESC')->get();
+            //calculation of remaining points
             $remain_points = (6 - $week) * 3;
 
+            //static probability assignment on a case-by-case basis
             if ($week == 6) {
                 $points[0]->prediction = 100;
                 $points[1]->prediction = 0;
